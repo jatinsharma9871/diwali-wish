@@ -315,10 +315,10 @@
         <div class="cta">
           <button class="btn" id="replayBtn">🎆 Play Fireworks</button>
           <button class="btn secondary" id="downloadBtn">💾 Download Image</button>
-          <button class="btn ghost" id="musicBtn" aria-pressed="true">🔊 Music On</button>
+          <button class="btn ghost" id="musicBtn" aria-pressed="false">🎵 Starting Music...</button>
         </div>
 
-        <footer class="note">✨ Tap anywhere for fireworks • Watch petals drift • Music plays softly in background</footer>
+        <footer class="note">✨ Tap anywhere for fireworks • Watch petals drift • Music auto-plays on mobile</footer>
       </div>
 
       <div class="right" aria-hidden="true">
@@ -340,10 +340,10 @@
   </div>
 </div>
 
-<!-- Auto-play audio with multiple fallbacks -->
-<audio id="bgAudio" loop preload="auto" muted autoplay>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4d5e7a5b7d.mp3?filename=soft-ambience-9944.mp3" type="audio/mpeg" />
-  <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQQAAAAAAA==" type="audio/wav" />
+<!-- Audio with multiple sources for better compatibility -->
+<audio id="bgAudio" loop preload="auto" crossorigin="anonymous">
+  <source src="https://drive.google.com/file/d/1PAWpGX-G0dTjjZ4IUm2Fyj31lJtSCQQS/view?usp=drivesdk" type="audio/mpeg" />
+  <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg" />
 </audio>
 
 <!-- jQuery CDN with integrity -->
@@ -355,95 +355,235 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
 const isLowEnd = navigator.hardwareConcurrency <= 2 || /Android.*Chrome\/[3-6][0-9]/i.test(navigator.userAgent);
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* Auto-play audio with user interaction fallback */
+/* Enhanced auto-play audio with aggressive mobile support */
 (() => {
   const audio = document.getElementById('bgAudio');
   const btn = document.getElementById('musicBtn');
-  let playing = true; // default assume playing
-  
-  // Try to unmute and play after a short delay
-  setTimeout(async () => {
+  let playing = false;
+  let audioContext = null;
+  let audioBuffer = null;
+  let audioSource = null;
+  let gainNode = null;
+
+  // Create Web Audio API fallback for mobile
+  async function initWebAudio() {
     try {
-      audio.muted = false;
-      audio.volume = 0.25; // gentle volume
-      await audio.play();
-      btn.textContent = '🔊 Music On';
-      btn.setAttribute('aria-pressed', 'true');
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const response = await fetch('https://cdn.pixabay.com/download/audio/2022/03/15/audio_4d5e7a5b7d.mp3?filename=soft-ambience-9944.mp3');
+      const arrayBuffer = await response.arrayBuffer();
+      audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+      return true;
     } catch (e) {
-      // Autoplay blocked, wait for user interaction
-      playing = false;
-      audio.muted = true;
+      console.log('Web Audio API fallback failed:', e);
+      return false;
+    }
+  }
+
+  function playWebAudio() {
+    if (audioContext && audioBuffer) {
+      if (audioSource) {
+        try { audioSource.stop(); } catch (e) {}
+      }
+      
+      audioSource = audioContext.createBufferSource();
+      gainNode = audioContext.createGain();
+      
+      audioSource.buffer = audioBuffer;
+      audioSource.loop = true;
+      audioSource.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
+      
+      audioSource.start(0);
+      return true;
+    }
+    return false;
+  }
+
+  function stopWebAudio() {
+    if (audioSource) {
+      try { audioSource.stop(); } catch (e) {}
+      audioSource = null;
+    }
+  }
+
+  // Multiple autoplay attempts with different strategies
+  async function attemptAutoplay() {
+    const attempts = [
+      // Attempt 1: Direct HTML5 audio
+      async () => {
+        audio.muted = false;
+        audio.volume = 0.25;
+        audio.currentTime = 0;
+        await audio.play();
+        return 'html5-direct';
+      },
+      // Attempt 2: Start muted then unmute (iOS Safari trick)
+      async () => {
+        audio.muted = true;
+        audio.volume = 0.25;
+        await audio.play();
+        await new Promise(resolve => setTimeout(resolve, 100));
+        audio.muted = false;
+        return 'html5-muted';
+      },
+      // Attempt 3: Web Audio API
+      async () => {
+        if (!audioContext && !(await initWebAudio())) {
+          throw new Error('Web Audio not available');
+        }
+        if (audioContext.state === 'suspended') {
+          await audioContext.resume();
+        }
+        playWebAudio();
+        return 'webaudio';
+      },
+      // Attempt 4: Ultra-low volume then increase
+      async () => {
+        audio.muted = false;
+        audio.volume = 0.001;
+        await audio.play();
+        // Gradually increase volume
+        for (let v = 0.001; v <= 0.25; v += 0.02) {
+          audio.volume = v;
+          await new Promise(resolve => setTimeout(resolve, 50));
+        }
+        return 'html5-gradual';
+      }
+    ];
+
+    for (let i = 0; i < attempts.length; i++) {
+      try {
+        const method = await attempts[i]();
+        console.log(`Audio started using method ${i + 1}:`, method);
+        playing = true;
+        btn.textContent = '🔊 Music Playing';
+        btn.setAttribute('aria-pressed', 'true');
+        return true;
+      } catch (e) {
+        console.log(`Audio attempt ${i + 1} failed:`, e.message);
+        continue;
+      }
+    }
+    return false;
+  }
+
+  // Enhanced user interaction handler with multiple event types
+  const enableAudioOnInteraction = async (e) => {
+    // Don't trigger on music button clicks
+    if (e.target.closest('#musicBtn')) return;
+    
+    btn.textContent = '🎵 Starting...';
+    
+    const success = await attemptAutoplay();
+    if (success) {
+      // Remove all interaction listeners
+      ['click', 'touchstart', 'touchend', 'pointerdown', 'keydown'].forEach(event => {
+        document.removeEventListener(event, enableAudioOnInteraction);
+      });
+      
+      // Show brief success message
+      btn.textContent = '🎵 Music Started!';
+      setTimeout(() => {
+        btn.textContent = '🔊 Music Playing';
+      }, 2000);
+    } else {
+      btn.textContent = '❌ Audio Failed - Tap Music Button';
+    }
+  };
+
+  // Initial autoplay attempt after page elements load
+  setTimeout(async () => {
+    btn.textContent = '🎵 Loading...';
+    
+    const success = await attemptAutoplay();
+    
+    if (!success) {
+      // Set up aggressive interaction listeners for mobile
       btn.textContent = '🔇 Tap to Play Music';
       btn.setAttribute('aria-pressed', 'false');
       
-      // Auto-enable on first user interaction anywhere
-      const enableAudio = async () => {
-        try {
-          audio.muted = false;
-          audio.volume = 0;
-          await audio.play();
-          playing = true;
-          btn.textContent = '🔊 Music On';
-          btn.setAttribute('aria-pressed', 'true');
-          
-          // fade in
-          let v = 0;
-          const fade = setInterval(() => {
-            v += 0.02;
-            audio.volume = Math.min(v, 0.25);
-            if (v >= 0.25) clearInterval(fade);
-          }, 50);
-          
-          document.removeEventListener('click', enableAudio);
-          document.removeEventListener('touchstart', enableAudio);
-        } catch (err) {
-          console.log('Audio autoplay failed:', err);
-        }
-      };
-      
-      document.addEventListener('click', enableAudio, { once: true });
-      document.addEventListener('touchstart', enableAudio, { once: true });
+      // Listen to multiple event types to catch user interaction
+      ['click', 'touchstart', 'touchend', 'pointerdown', 'keydown'].forEach(event => {
+        document.addEventListener(event, enableAudioOnInteraction, { passive: true });
+      });
     }
-  }, 800);
+  }, 1000);
 
+  // Button click handler
   btn.addEventListener('click', async (e) => {
     e.stopPropagation();
-    try {
-      if (!playing) {
-        audio.muted = false;
-        audio.volume = 0;
-        await audio.play();
-        playing = true;
-        btn.textContent = '🔊 Music On';
-        btn.setAttribute('aria-pressed', 'true');
-        
-        let v = 0;
-        const fade = setInterval(() => {
-          v += 0.03;
-          audio.volume = Math.min(v, 0.25);
-          if (v >= 0.25) clearInterval(fade);
-        }, 50);
-      } else {
-        let v = audio.volume;
-        const fade = setInterval(() => {
-          v -= 0.04;
-          audio.volume = Math.max(v, 0);
-          if (v <= 0) {
-            clearInterval(fade);
-            audio.pause();
-            audio.muted = true;
-            playing = false;
-            btn.textContent = '🔇 Music Off';
-            btn.setAttribute('aria-pressed', 'false');
-          }
-        }, 50);
+    
+    if (!playing) {
+      btn.textContent = '🎵 Starting...';
+      const success = await attemptAutoplay();
+      if (!success) {
+        btn.textContent = '❌ Audio Blocked';
+        setTimeout(() => {
+          btn.textContent = '🔇 Try Again';
+        }, 2000);
       }
-    } catch (err) {
-      playing = !playing;
-      btn.textContent = playing ? '🔊 Music On' : '🔇 Music Off';
-      btn.setAttribute('aria-pressed', playing.toString());
+    } else {
+      // Stop all audio
+      try {
+        audio.pause();
+        audio.currentTime = 0;
+      } catch (e) {}
+      
+      stopWebAudio();
+      
+      if (audioContext && audioContext.state !== 'closed') {
+        try { await audioContext.suspend(); } catch (e) {}
+      }
+      
+      playing = false;
+      btn.textContent = '🔇 Music Off';
+      btn.setAttribute('aria-pressed', 'false');
     }
   });
+
+  // Handle page visibility changes
+  document.addEventListener('visibilitychange', async () => {
+    if (!document.hidden && playing) {
+      try {
+        if (audioContext && audioContext.state === 'suspended') {
+          await audioContext.resume();
+        }
+        if (audio.paused && !audioSource) {
+          await audio.play();
+        }
+      } catch (e) {
+        // Try web audio if HTML5 fails
+        if (audioContext && audioBuffer) {
+          playWebAudio();
+        }
+      }
+    }
+  });
+
+  // iOS Safari specific handling with multiple touch events
+  if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+    const iosHandler = async (e) => {
+      if (!playing) {
+        await attemptAutoplay();
+      }
+    };
+    
+    // Listen to multiple iOS-specific events
+    ['touchend', 'touchstart', 'gesturestart'].forEach(event => {
+      document.addEventListener(event, iosHandler, { once: true, passive: true });
+    });
+  }
+
+  // Android Chrome specific handling
+  if (/Android.*Chrome/i.test(navigator.userAgent)) {
+    // Android Chrome sometimes needs a longer delay
+    setTimeout(async () => {
+      if (!playing) {
+        await attemptAutoplay();
+      }
+    }, 2000);
+  }
 })();
 
 /* Typewriter romantic line */
