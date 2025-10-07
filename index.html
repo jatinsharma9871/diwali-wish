@@ -16,9 +16,7 @@
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   }
 
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 
   html {
     height: 100%;
@@ -46,14 +44,11 @@
     overflow-y: auto;
   }
 
-  /* twinkling stars - fixed positioning for mobile */
+  /* twinkling stars */
   body::before {
     content: "";
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     pointer-events: none;
     z-index: 0;
     background-image:
@@ -88,8 +83,8 @@
 
   .card {
     position: relative;
-    width: 100%; 
-    max-width: 980px; 
+    width: 100%;
+    max-width: 980px;
     overflow: visible;
     border-radius: 20px;
     background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
@@ -188,160 +183,72 @@
   .type-line { max-width: 540px; margin: 0 auto; color: #e9e9ee; line-height: 1.6; min-height: 2.4em; font-size: 1rem; }
 
   /* jQuery heart */
-  #jqHeartWrap { 
-    display: inline-block; 
-    position: relative; 
-    filter: drop-shadow(0 12px 28px rgba(255,70,140,0.25));
-    margin: 8px 0;
-  }
-  #jqHeart { will-change: transform; transition: filter .2s ease; }
-  #jqHeartWrap:hover { filter: drop-shadow(0 14px 34px rgba(255,90,160,0.34)); }
+  #jqHeartWrap{ display:inline-block; position:relative; filter: drop-shadow(0 12px 28px rgba(255,70,140,0.25)); margin:8px 0; }
+  #jqHeart{ will-change: transform; transition: filter .2s ease; }
+  #jqHeartWrap:hover{ filter: drop-shadow(0 14px 34px rgba(255,90,160,0.34)); }
 
-  /* buttons - mobile scroll friendly */
+  /* buttons */
   .cta {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 20px 0;
-    padding: 8px;
-    width: 100%;
-    position: relative;
-    z-index: 10;
+    display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    margin: 20px 0; padding: 8px; width: 100%; position: relative; z-index: 10;
   }
   .btn {
-    padding: 14px 20px;
-    border-radius: 12px;
-    border: 0;
-    cursor: pointer;
-    font-weight: 650;
-    font-size: 15px;
-    background: linear-gradient(180deg,#ff6a9a,#ff2e6f);
-    color: #fff;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.44);
+    padding: 14px 20px; border-radius: 12px; border: 0; cursor: pointer;
+    font-weight: 650; font-size: 15px; background: linear-gradient(180deg,#ff6a9a,#ff2e6f);
+    color: #fff; box-shadow: 0 10px 24px rgba(0,0,0,0.44);
     transition: transform .15s ease, filter .2s ease;
-    min-width: 140px;
-    touch-action: manipulation;
-    -webkit-user-select: none;
-    user-select: none;
-    position: relative;
-    flex: 1;
-    max-width: 200px;
+    min-width: 140px; touch-action: manipulation; -webkit-user-select: none; user-select: none;
+    position: relative; flex: 1; max-width: 200px;
   }
-  .btn:active { transform: translateY(1px) scale(0.98); }
-  .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
-  .btn.secondary {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.18); 
-    color: #fff;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  }
-  .btn.ghost {
-    background: rgba(255,255,255,0.05);
-    border: 2px solid rgba(255,255,255,0.25);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-    font-weight: 700;
-  }
+  .btn:active{transform:translateY(1px) scale(0.98)}
+  .btn:hover{transform:translateY(-1px); filter:brightness(1.05)}
+  .btn.secondary{ background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#fff; box-shadow:0 8px 20px rgba(0,0,0,0.3); }
+  .btn.ghost{ background:rgba(255,255,255,0.05); border:2px solid rgba(255,255,255,0.25); box-shadow:0 6px 18px rgba(0,0,0,0.25); font-weight:700; }
 
-  /* canvases - fixed positioning with proper z-index */
+  /* canvases absolute to preserve scroll */
   #fwCanvas, #petals, #fireflies {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 0;
+    position: absolute; top:0; left:0; width:100%; height:100%;
+    pointer-events: none; z-index:0; touch-action: none;
   }
   #heartFx {
-    position: absolute;
-    inset: -15px;
-    pointer-events: none;
-    z-index: 2;
+    position: absolute; inset: -15px; pointer-events:none; z-index:2;
   }
 
   footer.note {
-    margin: 20px 0 10px 0;
-    color: #c7c7cf;
-    font-size: 13px;
-    line-height: 1.4;
-    padding: 0 8px;
-    text-align: center;
+    margin: 20px 0 10px 0; color:#c7c7cf; font-size:13px; line-height:1.4; padding:0 8px; text-align:center;
   }
 
-  /* Mobile optimizations with proper scrolling */
   @media (max-width: 768px) {
-    body {
-      background-attachment: scroll;
-    }
-    
-    .wrap {
-      min-height: auto;
-      align-items: center;
-      padding: 12px;
-      padding-top: max(12px, env(safe-area-inset-top, 12px));
-      padding-bottom: max(40px, env(safe-area-inset-bottom, 40px));
-      gap: 16px;
-    }
-    
-    .card {
-      padding: 16px;
-      border-radius: 16px;
-      margin: 0 auto;
-      width: 100%;
-      max-width: calc(100vw - 24px);
-    }
-    
-    .row {
-      flex-direction: column;
-      gap: 16px;
-      align-items: center;
-    }
-    .right { width: 100%; order: -1; min-width: auto; }
-    .left { min-width: auto; width: 100%; }
-    
-    h1 { font-size: 1.7rem; margin-bottom: 8px; }
-    p.lead { font-size: 14px; margin-bottom: 14px; padding: 0 4px; }
-    
-    .diyas { gap: 10px; padding: 8px; }
-    .diya { width: 65px; height: 115px; }
-    .diya .base { width: 58px; height: 30px; }
-    .flame { width: 18px; height: 32px; bottom: 36px; }
-    .halo { width: 80px; height: 80px; bottom: 46px; }
-    .glow { width: 80px; height: 24px; }
-    
-    #jqHeart { width: 90px; height: 82px; }
-    #heartFx { width: 110px; height: 110px; inset: -10px; }
-    
-    .message { margin: 12px 0; }
-    .to-line { font-size: 1rem; }
-    .type-line { font-size: 15px; padding: 0 8px; max-width: 100%; }
-    
-    .cta {
-      flex-direction: column;
-      gap: 12px;
-      margin: 20px 0;
-      padding: 4px 8px;
-      align-items: stretch;
-    }
-    .btn {
-      padding: 18px 24px;
-      font-size: 16px;
-      min-width: auto;
-      width: 100%;
-      max-width: none;
-      border-radius: 14px;
-      font-weight: 700;
-    }
-    
-    footer.note {
-      font-size: 12px;
-      margin: 20px 0 16px 0;
-      padding: 0 12px;
-    }
-    
-    /* Reduce visual complexity on mobile */
-    .card::before { animation-duration: 25s; filter: blur(50px); }
+    body { background-attachment: scroll; }
+    .wrap { min-height:auto; align-items:center; padding:12px; padding-top:max(12px, env(safe-area-inset-top, 12px)); padding-bottom:max(40px, env(safe-area-inset-bottom, 40px)); gap:16px; }
+    .card { padding:16px; border-radius:16px; margin:0 auto; width:100%; max-width:calc(100vw - 24px); }
+    .row { flex-direction:column; gap:16px; align-items:center; }
+    .right { width:100%; order:-1; min-width:auto; }
+    .left { min-width:auto; width:100%; }
+
+    h1 { font-size:1.7rem; margin-bottom:8px; }
+    p.lead { font-size:14px; margin-bottom:14px; padding:0 4px; }
+
+    .diyas { gap:10px; padding:8px; }
+    .diya { width:65px; height:115px; }
+    .diya .base { width:58px; height:30px; }
+    .flame { width:18px; height:32px; bottom:36px; }
+    .halo { width:80px; height:80px; bottom:46px; }
+    .glow { width:80px; height:24px; }
+
+    #jqHeart { width:120px; height:108px; }
+    #heartFx { width:140px; height:140px; inset:-10px; }
+
+    .message { margin:12px 0; }
+    .to-line { font-size:1rem; }
+    .type-line { font-size:15px; padding:0 8px; max-width:100%; }
+
+    .cta { flex-direction:column; gap:12px; margin:20px 0; padding:4px 8px; align-items:stretch; }
+    .btn { padding:18px 24px; font-size:16px; width:100%; max-width:none; border-radius:14px; font-weight:700; }
+
+    footer.note { font-size:12px; margin:20px 0 16px 0; padding:0 12px; }
+
+    .card::before { animation-duration:25s; filter:blur(50px); }
     body::before {
       background-image:
         radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.15) 50%, transparent 51%),
@@ -350,35 +257,25 @@
   }
 
   @media (max-width: 480px) {
-    .wrap { 
-      padding: 8px;
-      padding-bottom: max(24px, env(safe-area-inset-bottom, 24px));
-    }
-    .card { padding: 12px; max-width: calc(100vw - 16px); }
-    h1 { font-size: 1.5rem; }
-    .diyas { gap: 6px; }
-    .diya { width: 55px; height: 105px; }
-    .btn { padding: 16px 20px; font-size: 15px; }
+    .wrap { padding:8px; padding-bottom:max(24px, env(safe-area-inset-bottom, 24px)); }
+    .card { padding:12px; max-width:calc(100vw - 16px); }
+    h1 { font-size:1.5rem; }
+    .diyas { gap:6px; }
+    .diya { width:55px; height:105px; }
+    .btn { padding:16px 20px; font-size:15px; }
   }
 
-  /* Landscape mobile with proper scrolling */
   @media (max-height: 600px) and (orientation: landscape) {
-    .wrap {
-      min-height: auto;
-      padding: 8px;
-      gap: 8px;
-      align-items: flex-start;
-    }
-    .card { padding: 12px; }
-    .diyas { padding: 4px; gap: 8px; }
-    .diya { width: 50px; height: 90px; }
-    h1 { font-size: 1.4rem; }
-    .cta { margin: 12px 0; }
-    .btn { padding: 12px 20px; }
-    footer.note { margin: 8px 0; }
+    .wrap { min-height:auto; padding:8px; gap:8px; align-items:flex-start; }
+    .card { padding:12px; }
+    .diyas { padding:4px; gap:8px; }
+    .diya { width:50px; height:90px; }
+    h1 { font-size:1.4rem; }
+    .cta { margin:12px 0; }
+    .btn { padding:12px 20px; }
+    footer.note { margin:8px 0; }
   }
 
-  /* Reduce motion support */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
@@ -424,8 +321,9 @@
         </div>
 
         <div class="message">
-          <div class="heart-wrap" id="jqHeartWrap" aria-hidden="true">
-            <svg id="jqHeart" width="120" height="110" viewBox="0 0 120 110" role="img" aria-label="Love heart">
+          <!-- jQuery animated heart with name inside; set data-name to personalize -->
+          <div class="heart-wrap" id="jqHeartWrap" aria-hidden="false" data-name="Aaradhya">
+            <svg id="jqHeart" width="140" height="130" viewBox="0 0 120 110" role="img" aria-label="Love heart">
               <defs>
                 <linearGradient id="heartGrad" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0%" stop-color="#ff71a9"/>
@@ -438,19 +336,34 @@
                   <stop offset="100%" stop-color="rgba(255,255,255,0)" />
                 </linearGradient>
                 <clipPath id="heartClip">
-                  <path id="heartPath" d="
-                    M60,100
-                    C 20,70 2,50 10,30
-                    C 18,12 40,10 55,22
-                    C 70,10 92,12 100,30
-                    C 108,50 90,70 60,100 Z"/>
+                  <path id="heartPath" d="M60,100 C 20,70 2,50 10,30 C 18,12 40,10 55,22 C 70,10 92,12 100,30 C 108,50 90,70 60,100 Z"/>
                 </clipPath>
               </defs>
+
+              <!-- Heart shape -->
               <path d="M60,100 C 20,70 2,50 10,30 C 18,12 40,10 55,22 C 70,10 92,12 100,30 C 108,50 90,70 60,100 Z"
-                    fill="url(#heartGrad)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
-              <rect id="shine" x="-150" y="0" width="140" height="110" fill="url(#shineGrad)" clip-path="url(#heartClip)" opacity="0.0"/>
+                    fill="url(#heartGrad)" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+
+              <!-- Shine sweep -->
+              <rect id="shine" x="-160" y="0" width="160" height="110" fill="url(#shineGrad)"
+                    clip-path="url(#heartClip)" opacity="0.0"/>
+
+              <!-- Centered name -->
+              <text id="heartName"
+                    x="60" y="65"
+                    text-anchor="middle"
+                    dominant-baseline="middle"
+                    font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial"
+                    font-size="14"
+                    font-weight="700"
+                    fill="#ffffff"
+                    style="paint-order: stroke; stroke: rgba(0,0,0,0.3); stroke-width: 1.2px; letter-spacing: 0.4px;">
+                NAME HERE
+              </text>
             </svg>
-            <canvas id="heartFx" width="140" height="140"></canvas>
+
+            <!-- sparkle overlay -->
+            <canvas id="heartFx" width="160" height="160" style="position:absolute;inset:-15px;pointer-events:none;"></canvas>
           </div>
 
           <div>
@@ -476,17 +389,18 @@
               <stop offset="1" stop-color="#ff6a6a"/>
             </linearGradient>
           </defs>
-          <rect x="20" y="20" width="160" height="160" rx="24" ry="24" fill="url(#g1)" opacity="0.12" />
-          <circle cx="100" cy="80" r="36" fill="rgba(255,255,255,0.06)"/>
-          <g transform="translate(100,130)">
-            <ellipse rx="52" ry="7" fill="rgba(0,0,0,0.25)"></ellipse>
-          </g>
+        <rect x="20" y="20" width="160" height="160" rx="24" ry="24" fill="url(#g1)" opacity="0.12" />
+        <circle cx="100" cy="80" r="36" fill="rgba(255,255,255,0.06)"/>
+        <g transform="translate(100,130)">
+          <ellipse rx="52" ry="7" fill="rgba(0,0,0,0.25)"></ellipse>
+        </g>
         </svg>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Use Google Drive direct streaming link (set file to Anyone with the link) -->
 <audio id="bgAudio" loop preload="auto" crossorigin="anonymous">
   <source src="./WhatsApp Audio 2025-10-07 at 12.05.20 PM.mpeg" type="audio/mpeg" />
 </audio>
@@ -495,17 +409,14 @@
 
 <script>
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-const isLowEnd = navigator.hardwareConcurrency <= 2 || /Android.*Chrome\/[3-6][0-9]/i.test(navigator.userAgent);
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* Enhanced audio with proper mobile scroll support */
+/* Audio: multi-strategy autoplay with fallback */
 (() => {
   const audio = document.getElementById('bgAudio');
   const btn = document.getElementById('musicBtn');
   let playing = false;
-  let audioContext = null;
-  let audioBuffer = null;
-  let audioSource = null;
+  let audioContext, audioBuffer, audioSource, gainNode;
 
   btn.style.display = 'block';
   btn.style.visibility = 'visible';
@@ -513,129 +424,86 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
   async function initWebAudio() {
     try {
       audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const response = await fetch('https://cdn.pixabay.com/download/audio/2022/03/15/audio_4d5e7a5b7d.mp3?filename=soft-ambience-9944.mp3');
+      const src = audio.querySelector('source')?.src || audio.currentSrc;
+      const response = await fetch(src, { mode: 'cors' });
       const arrayBuffer = await response.arrayBuffer();
       audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
       return true;
-    } catch (e) {
-      return false;
-    }
+    } catch (e) { return false; }
   }
 
   function playWebAudio() {
-    if (audioContext && audioBuffer) {
-      if (audioSource) {
-        try { audioSource.stop(); } catch (e) {}
-      }
-      
-      audioSource = audioContext.createBufferSource();
-      const gainNode = audioContext.createGain();
-      
-      audioSource.buffer = audioBuffer;
-      audioSource.loop = true;
-      audioSource.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
-      
-      audioSource.start(0);
-      return true;
-    }
-    return false;
+    if (!audioContext || !audioBuffer) return false;
+    if (audioSource) { try { audioSource.stop(); } catch(e){} }
+    audioSource = audioContext.createBufferSource();
+    gainNode = audioContext.createGain();
+    audioSource.buffer = audioBuffer;
+    audioSource.loop = true;
+    audioSource.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
+    audioSource.start(0);
+    return true;
   }
 
   function stopWebAudio() {
-    if (audioSource) {
-      try { audioSource.stop(); } catch (e) {}
-      audioSource = null;
-    }
+    if (audioSource) { try { audioSource.stop(); } catch(e){} audioSource = null; }
   }
 
   async function attemptAutoplay() {
     const attempts = [
+      async () => { audio.muted=false; audio.volume=0.25; await audio.play(); return 'html5'; },
+      async () => { audio.muted=true; await audio.play(); await new Promise(r=>setTimeout(r,100)); audio.muted=false; audio.volume=0.25; return 'html5-muted'; },
       async () => {
-        audio.muted = false;
-        audio.volume = 0.25;
-        await audio.play();
-        return 'html5-direct';
-      },
-      async () => {
-        audio.muted = true;
-        await audio.play();
-        await new Promise(resolve => setTimeout(resolve, 100));
-        audio.muted = false;
-        audio.volume = 0.25;
-        return 'html5-muted';
-      },
-      async () => {
-        if (!audioContext && !(await initWebAudio())) {
-          throw new Error('Web Audio not available');
-        }
-        if (audioContext.state === 'suspended') {
-          await audioContext.resume();
-        }
-        playWebAudio();
-        return 'webaudio';
+        if (!audioContext && !(await initWebAudio())) throw new Error('webaudio-init');
+        if (audioContext.state==='suspended') await audioContext.resume();
+        playWebAudio(); return 'webaudio';
       }
     ];
-
-    for (let i = 0; i < attempts.length; i++) {
+    for (const attempt of attempts) {
       try {
-        const method = await attempts[i]();
+        const m = await attempt();
         playing = true;
         btn.textContent = '🔊 Music Playing';
-        btn.setAttribute('aria-pressed', 'true');
+        btn.setAttribute('aria-pressed','true');
         btn.style.background = 'linear-gradient(180deg,#4ade80,#22c55e)';
         return true;
-      } catch (e) {
-        continue;
-      }
+      } catch(e){}
     }
     return false;
   }
 
-  const enableAudioOnInteraction = async (e) => {
+  const enableOnInteraction = async (e) => {
     if (e.target.closest('#musicBtn')) return;
-    
-    const success = await attemptAutoplay();
-    if (success) {
-      ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(event => {
-        document.removeEventListener(event, enableAudioOnInteraction);
-      });
-    }
+    const ok = await attemptAutoplay();
+    if (ok) ['click','touchstart','touchend','pointerdown','keydown'].forEach(ev=>document.removeEventListener(ev, enableOnInteraction));
   };
 
   setTimeout(async () => {
-    const success = await attemptAutoplay();
-    if (!success) {
+    const ok = await attemptAutoplay();
+    if (!ok) {
       btn.textContent = '🔇 Tap to Play Music';
-      btn.setAttribute('aria-pressed', 'false');
-      
-      ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(event => {
-        document.addEventListener(event, enableAudioOnInteraction, { passive: true });
-      });
+      btn.setAttribute('aria-pressed','false');
+      ['click','touchstart','touchend','pointerdown','keydown'].forEach(ev=>document.addEventListener(ev, enableOnInteraction, { passive:true }));
     }
-  }, 1000);
+  }, 800);
 
   btn.addEventListener('click', async (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    
+    e.stopPropagation(); e.preventDefault();
     if (!playing) {
-      const success = await attemptAutoplay();
-      if (!success) {
+      const ok = await attemptAutoplay();
+      if (!ok) {
         btn.textContent = '❌ Audio Blocked';
         btn.style.background = 'linear-gradient(180deg,#f87171,#ef4444)';
+        setTimeout(()=>{ btn.textContent='🔇 Try Again'; btn.style.background='rgba(255,255,255,0.05)'; }, 2000);
       }
     } else {
-      try { audio.pause(); } catch (e) {}
+      try { audio.pause(); } catch(e){}
       stopWebAudio();
-      if (audioContext) {
-        try { await audioContext.suspend(); } catch (e) {}
-      }
-      
+      if (audioContext && audioContext.state!=='closed') { try { await audioContext.suspend(); } catch(e){} }
       playing = false;
       btn.textContent = '🔇 Music Off';
-      btn.setAttribute('aria-pressed', 'false');
+      btn.setAttribute('aria-pressed','false');
       btn.style.background = 'rgba(255,255,255,0.05)';
     }
   });
@@ -647,121 +515,95 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
   const el = document.getElementById('messageText');
   let i = 0;
   function type() {
-    if (i <= line.length) {
-      el.textContent = line.slice(0, i++);
-      setTimeout(type, isMobile ? 35 : 28);
-    }
+    if (i <= line.length) { el.textContent = line.slice(0, i++); setTimeout(type, isMobile ? 35 : 28); }
   }
   setTimeout(type, 600);
 })();
 
-/* Fireworks - scroll friendly */
+/* Fireworks (scroll-friendly); expose launchAt for touch shim */
 (() => {
   const canvas = document.getElementById('fwCanvas');
   const ctx = canvas.getContext('2d');
-  let W = canvas.width = window.innerWidth;
-  let H = canvas.height = window.innerHeight;
+  let W = canvas.width = innerWidth;
+  let H = canvas.height = innerHeight;
   let particles = [];
   const TAU = Math.PI * 2;
 
   function rand(min = 0, max = 1) { return Math.random() * (max - min) + min; }
   function randInt(min, max) { return Math.floor(rand(min, max + 1)); }
-  
-  function resize() { 
-    W = canvas.width = window.innerWidth; 
-    H = canvas.height = window.innerHeight; 
-  }
-  window.addEventListener('resize', resize);
+  function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+  addEventListener('resize', resize);
 
   class Particle {
-    constructor(x, y, dx, dy, life, color, size) {
-      this.x = x; this.y = y; this.dx = dx; this.dy = dy; this.life = life; this.age = 0;
-      this.color = color; this.size = size;
-    }
-    step(dt) {
-      this.age += dt;
-      this.x += this.dx * dt;
-      this.y += this.dy * dt + 0.02 * dt * dt;
-      this.dy += 0.06 * dt;
-      this.dx *= 0.997;
-    }
-    draw(ctx) {
-      const t = this.age / this.life;
-      ctx.globalAlpha = Math.max(1 - t, 0);
-      ctx.beginPath();
-      ctx.fillStyle = this.color;
-      ctx.arc(this.x, this.y, Math.max(this.size * (1 - t * 0.88), 0.45), 0, TAU);
-      ctx.fill();
-    }
-    alive() { return this.age < this.life; }
+    constructor(x,y,dx,dy,life,color,size){ this.x=x; this.y=y; this.dx=dx; this.dy=dy; this.life=life; this.age=0; this.color=color; this.size=size; }
+    step(dt){ this.age+=dt; this.x+=this.dx*dt; this.y+=this.dy*dt + 0.02*dt*dt; this.dy+=0.06*dt; this.dx*=0.997; }
+    draw(ctx){ const t=this.age/this.life; ctx.globalAlpha=Math.max(1-t,0); ctx.beginPath(); ctx.fillStyle=this.color; ctx.arc(this.x,this.y, Math.max(this.size*(1-t*0.88),0.45), 0, TAU); ctx.fill(); }
+    alive(){ return this.age < this.life; }
   }
 
-  function burst(x, y, hueBase = randInt(0, 360), count = isMobile ? 20 : 34) {
-    for (let i = 0; i < count; i++) {
-      const angle = rand(0, TAU);
+  function burst(x,y, hueBase=randInt(0,360), count = isMobile ? 20 : 34){
+    for(let i=0;i<count;i++){
+      const angle = rand(0,TAU);
       const speed = rand(1.7, isMobile ? 5.5 : 6.7);
-      const dx = Math.cos(angle) * speed;
-      const dy = Math.sin(angle) * speed;
+      const dx = Math.cos(angle)*speed;
+      const dy = Math.sin(angle)*speed;
       const life = rand(46, isMobile ? 100 : 124);
       const size = rand(1.6, isMobile ? 4.2 : 4.8);
-      const hue = (hueBase + randInt(-26, 26) + 360) % 360;
-      const color = `hsl(${hue} ${randInt(72, 96)}% ${randInt(52, 66)}%)`;
-      particles.push(new Particle(x, y, dx, dy, life, color, size));
+      const hue = (hueBase + randInt(-26,26) + 360) % 360;
+      const color = `hsl(${hue} ${randInt(72,96)}% ${randInt(52,66)}%)`;
+      particles.push(new Particle(x,y,dx,dy,life,color,size));
     }
   }
 
   let last = performance.now();
-  function loop(now) {
-    const dtMs = now - last;
-    last = now;
-    const dt = Math.min(dtMs / 16.666, 4);
+  function loop(now){
+    const dtMs = now - last; last = now;
+    const dt = Math.min(dtMs/16.666, 4);
     ctx.fillStyle = 'rgba(6,7,12,0.26)';
-    ctx.fillRect(0, 0, W, H);
-
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.step(dt);
-      if (!p.alive()) particles.splice(i, 1);
-      else p.draw(ctx);
+    ctx.fillRect(0,0,W,H);
+    for(let i=particles.length-1;i>=0;i--){
+      const p = particles[i]; p.step(dt);
+      if(!p.alive()) particles.splice(i,1); else p.draw(ctx);
     }
     requestAnimationFrame(loop);
   }
-
   requestAnimationFrame(loop);
 
-  function launchAt(x, y) {
+  function launchAt(x,y){
     const burstCount = isMobile ? 2 : 3;
-    for (let i = 0; i < burstCount; i++) {
-      burst(x + (Math.random() * 40 - 20), y + (Math.random() * 40 - 20));
-    }
+    for(let i=0;i<burstCount;i++){ burst(x + (Math.random()*40-20), y + (Math.random()*40-20)); }
   }
+  // expose for touch shim and custom events
+  window.launchAt = launchAt;
+  window.addEventListener('fw:launch', (ev) => {
+    const { x, y } = ev.detail || {};
+    if (typeof x === 'number' && typeof y === 'number') launchAt(x, y);
+  });
 
-  // Use proper event handling that doesn't interfere with scroll
+  // Pointer tap (mouse/pen) without blocking scroll
   document.addEventListener('pointerdown', (e) => {
     if (e.target.closest('.btn, .card')) return;
     launchAt(e.clientX, e.clientY);
   });
 
   document.getElementById('replayBtn').addEventListener('click', () => {
-    launchAt(W * 0.5, H * 0.3);
+    launchAt(innerWidth*0.5, innerHeight*0.32);
     if (window.spawnHeartSparks) window.spawnHeartSparks(isMobile ? 8 : 12);
   });
 
   document.getElementById('downloadBtn').addEventListener('click', () => {
     try {
       const tmp = document.createElement('canvas');
-      tmp.width = W; tmp.height = H;
+      tmp.width = innerWidth; tmp.height = innerHeight;
       const tctx = tmp.getContext('2d');
       tctx.fillStyle = '#05060a';
-      tctx.fillRect(0, 0, W, H);
-      tctx.drawImage(canvas, 0, 0);
+      tctx.fillRect(0,0,tmp.width,tmp.height);
+      tctx.drawImage(canvas,0,0);
       const a = document.createElement('a');
       a.href = tmp.toDataURL('image/png');
       a.download = 'happy-diwali.png';
       a.click();
-    } catch (err) {
-      alert('Could not create image');
-    }
+    } catch (err) { alert('Could not create image'); }
   });
 
   resize();
@@ -771,46 +613,39 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 (() => {
   const c = document.getElementById('petals');
   const ctx = c.getContext('2d');
-  let W = c.width = window.innerWidth, H = c.height = window.innerHeight;
+  let W = c.width = innerWidth, H = c.height = innerHeight;
 
   const P = [];
-  const COUNT = Math.min(isMobile ? 12 : 22, Math.floor(window.innerWidth / (isMobile ? 40 : 60)));
-  
-  function resize() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
-  window.addEventListener('resize', resize);
+  const COUNT = Math.min(isMobile ? 12 : 22, Math.floor(innerWidth / (isMobile ? 40 : 60)));
+  function resize(){ W = c.width = innerWidth; H = c.height = innerHeight; }
+  addEventListener('resize', resize);
 
-  for (let i = 0; i < COUNT; i++) {
-    P.push({
-      x: Math.random() * W, y: Math.random() * -H, z: Math.random() * 0.6 + 0.4,
-      r: Math.random() * (isMobile ? 5 : 6) + (isMobile ? 5 : 6), 
-      t: Math.random() * Math.PI * 2
-    });
+  for(let i=0;i<COUNT;i++){
+    P.push({ x: Math.random()*W, y: Math.random()*-H, z: Math.random()*0.6+0.4, r: Math.random()*(isMobile?5:6) + (isMobile?5:6), t: Math.random()*Math.PI*2 });
   }
 
-  function drawPetal(x, y, r, t, shade) {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(Math.sin(t) * 0.6);
-    const grad = ctx.createRadialGradient(0, 0, 1, 0, 0, r);
+  function drawPetal(x,y,r,t,shade){
+    ctx.save(); ctx.translate(x,y); ctx.rotate(Math.sin(t)*0.6);
+    const grad = ctx.createRadialGradient(0,0,1, 0,0,r);
     grad.addColorStop(0, `rgba(255,180,200,${shade})`);
-    grad.addColorStop(1, `rgba(255,120,160,${shade * 0.85})`);
+    grad.addColorStop(1, `rgba(255,120,160,${shade*0.85})`);
     ctx.fillStyle = grad;
     ctx.beginPath();
-    ctx.moveTo(0, -r * 0.8);
-    ctx.quadraticCurveTo(r, -r * 0.3, 0, r);
-    ctx.quadraticCurveTo(-r, -r * 0.3, 0, -r * 0.8);
+    ctx.moveTo(0, -r*0.8);
+    ctx.quadraticCurveTo(r, -r*0.3, 0, r);
+    ctx.quadraticCurveTo(-r, -r*0.3, 0, -r*0.8);
     ctx.fill();
     ctx.restore();
   }
 
-  function loop() {
-    ctx.clearRect(0, 0, W, H);
-    for (const p of P) {
-      p.y += (isMobile ? 0.15 : 0.18) * p.z;
-      p.x += Math.sin(p.t) * 0.15 * p.z;
-      p.t += 0.01 * (2 - p.z);
-      if (p.y > H + 20) { p.y = -20; p.x = Math.random() * W; }
-      drawPetal(p.x, p.y, p.r, p.t, 0.8 * p.z);
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    for(const p of P){
+      p.y += (isMobile?0.15:0.18)*p.z;
+      p.x += Math.sin(p.t)*0.15*p.z;
+      p.t += 0.01*(2 - p.z);
+      if(p.y > H+20){ p.y = -20; p.x = Math.random()*W; }
+      drawPetal(p.x,p.y,p.r,p.t,0.8*p.z);
     }
     requestAnimationFrame(loop);
   }
@@ -821,118 +656,147 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 (() => {
   const c = document.getElementById('fireflies');
   const ctx = c.getContext('2d');
-  let W = c.width = window.innerWidth, H = c.height = window.innerHeight;
-  
-  const F = Array.from({ length: isMobile ? 10 : 16 }, () => ({
-    x: Math.random() * W, y: Math.random() * H * 0.5 + 20,
-    t: Math.random() * Math.PI * 2, r: Math.random() * 2 + 1
-  }));
-  
-  function resize() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
-  window.addEventListener('resize', resize);
+  let W = c.width = innerWidth, H = c.height = innerHeight;
+  const F = Array.from({ length: isMobile ? 10 : 16 }, () => ({ x: Math.random()*W, y: Math.random()*H*0.5+20, t: Math.random()*Math.PI*2, r: Math.random()*2+1 }));
+  function resize(){ W = c.width = innerWidth; H = c.height = innerHeight; }
+  addEventListener('resize', resize);
 
-  function loop() {
-    ctx.clearRect(0, 0, W, H);
-    for (const f of F) {
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    for(const f of F){
       f.t += 0.01;
-      f.x += Math.cos(f.t) * 0.4;
-      f.y += Math.sin(f.t * 1.3) * 0.25;
-      const g = ctx.createRadialGradient(f.x, f.y, 0.1, f.x, f.y, f.r * 3);
-      g.addColorStop(0, 'rgba(255,240,180,0.9)');
-      g.addColorStop(1, 'rgba(255,240,180,0.0)');
+      f.x += Math.cos(f.t)*0.4;
+      f.y += Math.sin(f.t*1.3)*0.25;
+      const g = ctx.createRadialGradient(f.x,f.y,0.1, f.x,f.y,f.r*3);
+      g.addColorStop(0,'rgba(255,240,180,0.9)');
+      g.addColorStop(1,'rgba(255,240,180,0.0)');
       ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,Math.PI*2); ctx.fill();
     }
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
 })();
 
-/* jQuery heart */
-(function ($) {
+/* jQuery animated heart with name + sparkles */
+(function($){
+  const $wrap = $('#jqHeartWrap');
   const $heart = $('#jqHeart');
   const $shine = $('#shine');
+  const nameEl = document.getElementById('heartName');
+
+  // personalize name from data-name or fallback text
+  const customName = $wrap.attr('data-name');
+  if (customName) nameEl.textContent = customName;
 
   let t0 = performance.now();
-  function pulse(now) {
-    if (reduceMotion) return;
+  function pulse(now){
+    if(reduceMotion) return;
     const t = (now - t0) / 1000;
-    const s = 1 + Math.sin(t * (2 * Math.PI) / 1.5) * (isMobile ? 0.04 : 0.06);
-    $heart.css('transform', 'scale(' + s + ')');
+    const s = 1 + Math.sin(t * (2*Math.PI) / 1.5) * (isMobile ? 0.04 : 0.06);
+    $heart.css('transform', 'scale('+s+')');
     requestAnimationFrame(pulse);
   }
-  if (!reduceMotion) requestAnimationFrame(pulse);
+  if(!reduceMotion) requestAnimationFrame(pulse);
 
-  function sweep() {
-    if (reduceMotion) return;
-    $shine.css({ opacity: 0.0 });
-    $shine.attr('x', -150);
-    $shine.animate({ opacity: 0.85 }, 180, 'linear', function () {
-      $({ x: -150 }).animate({ x: 130 }, {
-        duration: isMobile ? 1200 : 1400,
-        easing: 'swing',
-        step: function (v) { $shine.attr('x', v); },
-        complete: function () {
-          $shine.animate({ opacity: 0.0 }, 260, 'linear');
+  function sweep(){
+    if(reduceMotion) return;
+    $shine.css({opacity:0.0}).attr('x', -160);
+    $shine.animate({opacity:0.85}, 180, 'linear', function(){
+      $({x:-160}).animate({x:150}, {
+        duration: isMobile ? 1200 : 1400, easing:'swing',
+        step: v => $shine.attr('x', v),
+        complete: function(){
+          $shine.animate({opacity:0.0}, 240, 'linear');
           setTimeout(sweep, isMobile ? 2000 : 1600);
         }
       });
     });
   }
-  if (!reduceMotion) sweep();
+  if(!reduceMotion) sweep();
 
+  // Sparkles
   const c = document.getElementById('heartFx');
   const ctx = c.getContext('2d');
   const W = c.width, H = c.height;
-  const center = { x: W / 2, y: H / 2 + 6 };
+  const center = {x: W/2, y: H/2 + 4};
   let sparks = [];
 
-  function spawn(n = isMobile ? 3 : 5) {
-    for (let i = 0; i < n; i++) {
-      const a = Math.random() * Math.PI * 2;
-      const r = (isMobile ? 14 : 18) + Math.random() * (isMobile ? 20 : 26);
+  function spawn(n = isMobile ? 3 : 5){
+    for(let i=0;i<n;i++){
+      const a = Math.random()*Math.PI*2;
+      const r = (isMobile ? 14 : 18) + Math.random()*(isMobile ? 20 : 26);
       sparks.push({
-        x: center.x + Math.cos(a) * r,
-        y: center.y + Math.sin(a) * r,
-        dx: (Math.random() - 0.5) * 0.6,
-        dy: (Math.random() - 0.8) * 0.8,
-        life: (isMobile ? 35 : 42) + Math.random() * 26,
+        x: center.x + Math.cos(a)*r,
+        y: center.y + Math.sin(a)*r,
+        dx: (Math.random()-0.5)*0.6,
+        dy: (Math.random()-0.8)*0.8,
+        life: (isMobile ? 35 : 44) + Math.random()*24,
         age: 0,
-        size: 1 + Math.random() * (isMobile ? 1.5 : 1.8),
-        hue: 330 + Math.random() * 30
+        size: 1 + Math.random()*(isMobile ? 1.4 : 1.8),
+        hue: 330 + Math.random()*30
       });
     }
   }
-  window.spawnHeartSparks = spawn;
-
-  let beat = setInterval(() => { if (!reduceMotion) spawn(); }, isMobile ? 600 : 500);
+  window.spawnHeartSparks = (n)=>spawn(n);
 
   let last = performance.now();
-  function loop(now) {
-    const dt = Math.min((now - last) / 16.666, 3);
+  function loop(now){
+    const dt = Math.min((now - last)/16.666, 3);
     last = now;
-    ctx.clearRect(0, 0, W, H);
-    for (let i = sparks.length - 1; i >= 0; i--) {
+    ctx.clearRect(0,0,W,H);
+    for(let i=sparks.length-1;i>=0;i--){
       const p = sparks[i];
       p.age += dt;
-      if (p.age > p.life) { sparks.splice(i, 1); continue; }
-      p.x += p.dx * dt; p.y += p.dy * dt; p.dy += 0.02 * dt;
-      const t = p.age / p.life;
+      if(p.age > p.life){ sparks.splice(i,1); continue; }
+      p.x += p.dx*dt; p.y += p.dy*dt; p.dy += 0.02*dt;
+      const t = p.age/p.life;
       const alpha = Math.max(1 - t, 0);
-      const grd = ctx.createRadialGradient(p.x, p.y, 0.1, p.x, p.y, p.size * 3);
-      grd.addColorStop(0, `hsla(${p.hue}, 90%, 70%, ${0.85 * alpha})`);
-      grd.addColorStop(1, `hsla(${p.hue}, 90%, 70%, 0)`);
-      ctx.fillStyle = grd;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
+      const g = ctx.createRadialGradient(p.x,p.y,0.1, p.x,p.y,p.size*3);
+      g.addColorStop(0, `hsla(${p.hue},90%,70%,${0.85*alpha})`);
+      g.addColorStop(1, `hsla(${p.hue},90%,70%,0)`);
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
     }
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
 })(jQuery);
+
+/* Touch fireworks: tap detection without breaking scroll */
+(() => {
+  function triggerFireworks(x, y){
+    if (typeof window.launchAt === 'function') { window.launchAt(x, y); }
+    else { window.dispatchEvent(new CustomEvent('fw:launch', { detail: { x, y } })); }
+    if (window.spawnHeartSparks) window.spawnHeartSparks(isMobile ? 6 : 10);
+  }
+
+  const MAX_TAP_TIME = 250;
+  const MAX_TAP_MOVE = 12;
+  let sx=0, sy=0, st=0, moved=false;
+  function isOnUI(target){ return !!(target.closest && target.closest('.btn, a, button, input, textarea, select')); }
+
+  window.addEventListener('touchstart', (e) => {
+    const t = e.touches[0]; if (!t) return;
+    if (isOnUI(e.target)) return;
+    sx = t.clientX; sy = t.clientY; st = performance.now(); moved = false;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    const t = e.touches[0]; if (!t) return;
+    const dx = t.clientX - sx; const dy = t.clientY - sy;
+    if (Math.hypot(dx, dy) > MAX_TAP_MOVE) moved = true;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    if (isOnUI(e.target)) return;
+    const dt = performance.now() - st;
+    if (!moved && dt < MAX_TAP_TIME) {
+      const t = e.changedTouches && e.changedTouches[0]; if (!t) return;
+      triggerFireworks(t.clientX, t.clientY);
+    }
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>
