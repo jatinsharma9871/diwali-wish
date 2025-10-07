@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Happy Diwali — With Love</title>
+<style>
+  :root{
+    --bg:#080910;
+    --bg2:#0c0d16;
+    --accent:#ff4d8d;
+    --gold:#ffd873;
+    --text:#ffffff;
+    --muted:#d8d8de;
+    --stroke: rgba(255,255,255,0.12);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+
+  html,body{
+    height:100%;margin:0;color:var(--text);
+    background:
+      radial-gradient(1200px 600px at 50% 10%, rgba(255,120,170,0.08), transparent 70%),
+      radial-gradient(900px 500px at 80% 20%, rgba(255,210,140,0.06), transparent 70%),
+      linear-gradient(180deg, #05060b 0%, var(--bg2) 100%);
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  }
+
+  /* twinkling stars */
+  body::before{
+    content:"";
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+      radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.25) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 70% 10%, rgba(255,255,255,0.25) 50%, transparent 51%),
+      radial-gradient(1.8px 1.8px at 40% 70%, rgba(255,255,255,0.22) 50%, transparent 51%),
+      radial-gradient(1.6px 1.6px at 85% 60%, rgba(255,255,255,0.22) 50%, transparent 51%);
+    background-repeat:no-repeat;
+    filter:drop-shadow(0 0 4px rgba(255,255,255,0.25));
+    animation: stars 6s ease-in-out infinite alternate;
+  }
+  @keyframes stars{
+    from{opacity:0.7; transform:translateY(0px)}
+    to{opacity:1; transform:translateY(-2px)}
+  }
+
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px;box-sizing:border-box;gap:28px;flex-direction:column;text-align:center;position:relative;z-index:1}
+
+  .card{
+    width:100%; max-width:980px; position:relative; overflow:hidden;
+    border-radius:22px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    border:1px solid var(--stroke);
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.04),
+      0 20px 60px rgba(0,0,0,0.55);
+    padding:32px 28px;
+    backdrop-filter: blur(8px) saturate(120%);
+  }
+  .card::before{
+    content:""; position:absolute; inset:-30% -40% auto -40%; height:140%;
+    background: conic-gradient(from 120deg at 50% 50%, rgba(255,160,200,0.08), rgba(255,220,160,0.12), rgba(140,180,255,0.06), rgba(255,160,200,0.08));
+    filter: blur(40px);
+    animation: aurora 14s linear infinite;
+    pointer-events:none;
+  }
+  @keyframes aurora{
+    0%{transform:translateY(-8%) rotate(0deg)}
+    50%{transform:translateY(6%) rotate(180deg)}
+    100%{transform:translateY(-8%) rotate(360deg)}
+  }
+
+  h1{font-size:2.15rem;margin:0 0 10px 0;letter-spacing:0.3px}
+  p.lead{margin:0 0 18px 0;color:var(--muted)}
+
+  .row{display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap;position:relative;z-index:2}
+  .left{flex:1;min-width:280px}
+  .right{width:380px;min-width:240px;display:flex;align-items:center;justify-content:center;position:relative}
+
+  /* diya cluster */
+  .diyas{display:flex;gap:18px;align-items:flex-end;justify-content:center;padding:14px}
+  .diya{width:82px;height:132px;position:relative;display:flex;align-items:flex-end;justify-content:center;}
+  .diya .base{
+    width:74px;height:38px;
+    background: radial-gradient(120% 120% at 50% 30%, #7a4a28 0%, #4c2b16 55%, #2e1b0f 100%);
+    border-radius:30px 30px 18px 18px;
+    box-shadow: inset 0 8px 18px rgba(0,0,0,0.55), 0 6px 18px rgba(0,0,0,0.45);
+    position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  }
+  .flame{
+    width:26px;height:44px;border-radius:50%;
+    background: radial-gradient(circle at 50% 35%, #fff7c9 0%, #ffd873 22%, #ff9a3c 52%, #ff4b00 78%);
+    position:absolute;bottom:48px;left:50%;transform:translateX(-50%) rotate(-8deg);
+    filter: drop-shadow(0 10px 22px rgba(255,130,20,0.22));
+    animation: flicker 1.2s infinite;
+  }
+  .halo{
+    position:absolute;bottom:60px;left:50%;transform:translateX(-50%);width:120px;height:120px;border-radius:50%;
+    background: radial-gradient(closest-side, rgba(255,210,120,0.18), rgba(255,160,80,0.06), transparent 70%);
+    filter: blur(10px);pointer-events:none;
+  }
+  .glow{
+    position:absolute;bottom:18px;left:50%;transform:translateX(-50%);width:120px;height:36px;border-radius:50%;
+    background: radial-gradient(ellipse at center, rgba(255,210,120,0.24), transparent 60%);
+    filter: blur(8px);pointer-events:none;
+  }
+  @keyframes flicker{
+    0%{transform:translateX(-50%) rotate(-7deg) scaleY(1)}
+    40%{transform:translateX(-50%) rotate(5deg) scaleY(0.96)}
+    100%{transform:translateX(-50%) rotate(-7deg) scaleY(1)}
+  }
+
+  /* message + jQuery heart */
+  .message{margin-top:12px;display:flex;flex-direction:column;gap:12px;align-items:center;}
+  .to-line{font-size:1.05rem}
+  .type-line{max-width:620px;margin:0 auto;color:#e9e9ee;line-height:1.5;min-height:2.2em}
+
+  /* jQuery heart visuals */
+  #jqHeartWrap{ display:inline-block; position:relative; filter: drop-shadow(0 12px 28px rgba(255,70,140,0.25)); }
+  #jqHeart{ will-change: transform; transition: filter .2s ease; }
+  #jqHeartWrap:hover{ filter: drop-shadow(0 14px 34px rgba(255,90,160,0.34)); }
+
+  /* canvases */
+  #fwCanvas{position:absolute;inset:0;pointer-events:none;z-index:0}
+  #petals,#fireflies{position:absolute;inset:0;pointer-events:none;z-index:1}
+  #heartFx{position:absolute; inset:-15px; pointer-events:none; z-index:2}
+
+  footer.note{margin-top:16px;color:#c7c7cf;font-size:13px}
+
+  @media (max-width:720px){
+    .right{width:100%;order:-1}
+    .card{padding:22px}
+    h1{font-size:1.6rem}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card" role="main" aria-live="polite">
+    <canvas id="fwCanvas"></canvas>
+    <canvas id="petals"></canvas>
+    <canvas id="fireflies"></canvas>
+
+    <div class="row">
+      <div class="left">
+        <h1>Happy Diwali</h1>
+        <p class="lead">May every light that blooms tonight find a home in our hearts, and every spark remember our love by name.</p>
+
+        <div class="diyas" aria-hidden="true">
+          <div class="diya">
+            <div class="flame" style="animation-duration:1.05s"></div>
+            <div class="halo"></div>
+            <div class="base"></div>
+            <div class="glow" style="width:126px;"></div>
+          </div>
+          <div class="diya">
+            <div class="flame" style="animation-duration:1.18s"></div>
+            <div class="halo"></div>
+            <div class="base" style="width:80px"></div>
+            <div class="glow" style="width:114px;"></div>
+          </div>
+          <div class="diya">
+            <div class="flame" style="animation-duration:0.96s"></div>
+            <div class="halo"></div>
+            <div class="base" style="width:68px"></div>
+            <div class="glow" style="width:106px;"></div>
+          </div>
+        </div>
+
+        <div class="message">
+          <!-- jQuery animated heart -->
+          <div class="heart-wrap" id="jqHeartWrap" aria-hidden="true">
+            <svg id="jqHeart" width="120" height="110" viewBox="0 0 120 110" role="img" aria-label="Love heart">
+              <defs>
+                <linearGradient id="heartGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#ff71a9"/>
+                  <stop offset="60%" stop-color="#ff2e6f"/>
+                  <stop offset="100%" stop-color="#e3125a"/>
+                </linearGradient>
+                <linearGradient id="shineGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="rgba(255,255,255,0)" />
+                  <stop offset="50%" stop-color="rgba(255,255,255,0.45)" />
+                  <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                </linearGradient>
+                <clipPath id="heartClip">
+                  <path id="heartPath" d="
+                    M60,100
+                    C 20,70 2,50 10,30
+                    C 18,12 40,10 55,22
+                    C 70,10 92,12 100,30
+                    C 108,50 90,70 60,100 Z"/>
+                </clipPath>
+              </defs>
+              <path d="M60,100 C 20,70 2,50 10,30 C 18,12 40,10 55,22 C 70,10 92,12 100,30 C 108,50 90,70 60,100 Z"
+                    fill="url(#heartGrad)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <rect id="shine" x="-150" y="0" width="140" height="110" fill="url(#shineGrad)" clip-path="url(#heartClip)" opacity="0.0"/>
+            </svg>
+            <canvas id="heartFx" width="140" height="140"></canvas>
+          </div>
+
+          <div>
+            <strong id="toName" class="to-line">To: My Love</strong>
+          </div>
+          <p id="messageText" class="type-line"></p>
+        </div>
+
+        <div class="cta">
+          <button class="btn" id="replayBtn">Play Fireworks</button>
+          <button class="btn secondary" id="downloadBtn">Download as Image</button>
+          <button class="btn ghost" id="musicBtn" aria-pressed="false">Play Music</button>
+        </div>
+
+        <footer class="note">Tip: Tap anywhere for fireworks, watch petals drift, and toggle music for a soft festive lullaby.</footer>
+      </div>
+
+      <div class="right" aria-hidden="true">
+        <svg width="260" height="260" viewBox="0 0 200 200" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#ffd873"/>
+              <stop offset="1" stop-color="#ff6a6a"/>
+            </linearGradient>
+          </defs>
+          <rect x="20" y="20" width="160" height="160" rx="24" ry="24" fill="url(#g1)" opacity="0.12" />
+          <circle cx="100" cy="80" r="36" fill="rgba(255,255,255,0.06)"/>
+          <g transform="translate(100,130)">
+            <ellipse rx="52" ry="7" fill="rgba(0,0,0,0.25)"></ellipse>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="bgAudio" loop preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4d5e7a5b7d.mp3?filename=soft-ambience-9944.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+
+<script>
+/* Typewriter romantic line */
+(() => {
+  const line = "You are my brightest diya, and in your glow, every night learns how to be a festival.";
+  const el = document.getElementById('messageText');
+  let i = 0;
+  function type() {
+    if(i <= line.length){
+      el.textContent = line.slice(0, i++);
+      setTimeout(type, 28);
+    }
+  }
+  setTimeout(type, 600);
+})();
+
+/* Fireworks (unchanged core with gentle trails) */
+(() => {
+  const canvas = document.getElementById('fwCanvas');
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width = innerWidth;
+  let H = canvas.height = innerHeight;
+  let particles = [];
+  const TAU = Math.PI * 2;
+
+  function rand(min=0,max=1){ return Math.random()*(max-min)+min; }
+  function randInt(min,max){ return Math.floor(rand(min,max+1)); }
+  function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+  addEventListener('resize', resize);
+
+  class Particle {
+    constructor(x,y,dx,dy,life,color,size){
+      this.x=x;this.y=y;this.dx=dx;this.dy=dy;this.life=life;this.age=0;
+      this.color=color;this.size=size;
+    }
+    step(dt){
+      this.age += dt;
+      this.x += this.dx*dt;
+      this.y += this.dy*dt + 0.02*dt*dt;
+      this.dy += 0.06*dt;
+      this.dx *= 0.997;
+    }
+    draw(ctx){
+      const t = this.age/this.life;
+      ctx.globalAlpha = Math.max(1 - t, 0);
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.arc(this.x, this.y, Math.max(this.size*(1 - t*0.88),0.45), 0, TAU);
+      ctx.fill();
+    }
+    alive(){ return this.age < this.life; }
+  }
+
+  function burst(x,y, hueBase=randInt(0,360), count=34){
+    for(let i=0;i<count;i++){
+      const angle = rand(0,TAU);
+      const speed = rand(1.7,6.7);
+      const dx = Math.cos(angle)*speed;
+      const dy = Math.sin(angle)*speed;
+      const life = rand(46,124);
+      const size = rand(1.6,4.8);
+      const hue = (hueBase + randInt(-26,26) + 360) % 360;
+      const color = `hsl(${hue} ${randInt(72,96)}% ${randInt(52,66)}%)`;
+      particles.push(new Particle(x,y,dx,dy,life,color,size));
+    }
+  }
+
+  let last = performance.now();
+  function loop(now){
+    const dtMs = now - last;
+    last = now;
+    const dt = Math.min(dtMs/16.666, 4);
+    ctx.fillStyle = 'rgba(6,7,12,0.26)';
+    ctx.fillRect(0,0,W,H);
+
+    for(let i = particles.length-1; i>=0; i--){
+      const p = particles[i];
+      p.step(dt);
+      if(!p.alive()) particles.splice(i,1);
+      else p.draw(ctx);
+    }
+    requestAnimationFrame(loop);
+  }
+
+  function paintBackground() {
+    const g = ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0, 'rgba(255,140,180,0.03)');
+    g.addColorStop(1, 'rgba(8,10,20,0.02)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,W,H);
+  }
+  paintBackground();
+  requestAnimationFrame(loop);
+
+  function launchAt(x,y){
+    for(let i=0;i<3;i++){
+      burst(x + (Math.random()*40-20), y + (Math.random()*40-20), randInt(0,360), randInt(22,38));
+    }
+    for(let i=0;i<7;i++){
+      particles.push(new Particle(x + (Math.random()*20-10), y + (Math.random()*20-10),
+        Math.random()*3-1.5, Math.random()*-3.8-0.6, Math.random()*60+60,
+        'rgba(255,240,220,0.95)', Math.random()*2+1));
+    }
+  }
+
+  window.addEventListener('pointerdown', (e) => launchAt(e.clientX, e.clientY));
+
+  document.getElementById('replayBtn').addEventListener('click', () => {
+    launchAt(innerWidth*0.5, innerHeight*0.32);
+    burst(Math.random()*(innerWidth-120)+60, Math.random()*innerHeight*0.45+60);
+    burst(Math.random()*(innerWidth-120)+60, Math.random()*innerHeight*0.45+60);
+    // sync extra heart sparkles on click
+    if(window.spawnHeartSparks) window.spawnHeartSparks(12);
+  });
+
+  document.getElementById('downloadBtn').addEventListener('click', async () => {
+    try {
+      const tmp = document.createElement('canvas');
+      tmp.width = innerWidth; tmp.height = innerHeight;
+      const tctx = tmp.getContext('2d');
+      tctx.fillStyle = '#05060a';
+      tctx.fillRect(0,0,tmp.width,tmp.height);
+      tctx.drawImage(canvas,0,0);
+      const a = document.createElement('a');
+      a.href = tmp.toDataURL('image/png');
+      a.download = 'happy-diwali.png';
+      a.click();
+    } catch (err) {
+      alert('Could not create image: '+err.message);
+    }
+  });
+
+  resize();
+})();
+
+/* Floating rose petals */
+(() => {
+  const c = document.getElementById('petals');
+  const ctx = c.getContext('2d');
+  let W = c.width = innerWidth, H = c.height = innerHeight;
+
+  const P = [];
+  const COUNT = Math.min(22, Math.floor(innerWidth/60));
+  function rand(a,b){ return Math.random()*(b-a)+a; }
+  function resize(){ W = c.width = innerWidth; H = c.height = innerHeight; }
+  addEventListener('resize', resize);
+
+  for(let i=0;i<COUNT;i++){
+    P.push({
+      x: rand(0,W), y: rand(-H,0), z: rand(0.4,1),
+      r: rand(6,12), t: rand(0,Math.PI*2), s: rand(12,24)
+    });
+  }
+
+  function drawPetal(x,y,r,t,shade){
+    ctx.save();
+    ctx.translate(x,y);
+    ctx.rotate(Math.sin(t)*0.6);
+    const grad = ctx.createRadialGradient(0,0,1, 0,0,r);
+    grad.addColorStop(0, `rgba(255,180,200,${shade})`);
+    grad.addColorStop(1, `rgba(255,120,160,${shade*0.85})`);
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(0, -r*0.8);
+    ctx.quadraticCurveTo(r, -r*0.3, 0, r);
+    ctx.quadraticCurveTo(-r, -r*0.3, 0, -r*0.8);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    for(const p of P){
+      p.y += 0.18 * p.z;
+      p.x += Math.sin(p.t)*0.15 * p.z;
+      p.t += 0.01 * (2 - p.z);
+      if(p.y > H+20) { p.y = -20; p.x = Math.random()*W; }
+      drawPetal(p.x, p.y, p.r, p.t, 0.8*p.z);
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+
+/* Fireflies */
+(() => {
+  const c = document.getElementById('fireflies');
+  const ctx = c.getContext('2d');
+  let W = c.width = innerWidth, H = c.height = innerHeight;
+  const F = Array.from({length: 16}, () => ({
+    x: Math.random()*W, y: Math.random()*H*0.5 + 20,
+    t: Math.random()*Math.PI*2, r: Math.random()*2+1
+  }));
+  function resize(){ W = c.width = innerWidth; H = c.height = innerHeight; }
+  addEventListener('resize', resize);
+
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    for(const f of F){
+      f.t += 0.01;
+      f.x += Math.cos(f.t)*0.4;
+      f.y += Math.sin(f.t*1.3)*0.25;
+      const g = ctx.createRadialGradient(f.x,f.y,0.1, f.x,f.y,f.r*3);
+      g.addColorStop(0,'rgba(255,240,180,0.9)');
+      g.addColorStop(1,'rgba(255,240,180,0.0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
+      ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+
+/* Music toggle */
+(() => {
+  const btn = document.getElementById('musicBtn');
+  const audio = document.getElementById('bgAudio');
+  let playing = false;
+  btn.addEventListener('click', async () => {
+    try{
+      if(!playing){
+        audio.volume = 0;
+        await audio.play();
+        playing = true;
+        btn.textContent = 'Pause Music';
+        btn.setAttribute('aria-pressed', 'true');
+        let v = 0;
+        const fade = setInterval(()=>{
+          v += 0.02;
+          audio.volume = Math.min(v, 0.35);
+          if(v >= 0.35) clearInterval(fade);
+        }, 60);
+      } else {
+        let v = audio.volume;
+        const fade = setInterval(()=>{
+          v -= 0.03;
+          audio.volume = Math.max(v, 0);
+          if(v <= 0) {
+            clearInterval(fade);
+            audio.pause();
+            playing = false;
+            btn.textContent = 'Play Music';
+            btn.setAttribute('aria-pressed', 'false');
+          }
+        }, 60);
+      }
+    }catch(e){
+      btn.textContent = playing ? 'Pause Music' : 'Play Music';
+    }
+  });
+})();
+
+/* jQuery animated heart: pulse, shine, and sparkles */
+(function($){
+  const $wrap = $('#jqHeartWrap');
+  const $heart = $('#jqHeart');
+  const $shine = $('#shine');
+
+  // Pulse beat via rAF
+  let t0 = performance.now();
+  let reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function pulse(now){
+    if(reduceMotion) return;
+    const t = (now - t0) / 1000;
+    const s = 1 + Math.sin(t * (2*Math.PI) / 1.5) * 0.06; // 1.5s
+    $heart.css('transform', 'scale('+s+')');
+    // optional glow shift
+    const glow = 28 + Math.sin(t * (2*Math.PI) / 1.5) * 6;
+    $wrap.css('filter', 'drop-shadow(0 12px '+glow+'px rgba(255,70,140,0.28))');
+    requestAnimationFrame(pulse);
+  }
+  if(!reduceMotion) requestAnimationFrame(pulse);
+
+  // Shine sweep using jQuery animate
+  function sweep(){
+    $shine.css({opacity:0.0});
+    $shine.attr('x', -150);
+    $shine.animate({opacity:0.85}, 180, 'linear', function(){
+      $({x:-150}).animate({x:130}, {
+        duration:1400,
+        easing:'swing',
+        step: function(v){ $shine.attr('x', v); },
+        complete: function(){
+          $shine.animate({opacity:0.0}, 260, 'linear');
+          setTimeout(sweep, 1600);
+        }
+      });
+    });
+  }
+  if(!reduceMotion) sweep();
+
+  // Sparkle ring
+  const c = document.getElementById('heartFx');
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  const center = {x: W/2, y: H/2 + 6};
+  let sparks = [];
+
+  function spawn(n=5){
+    for(let i=0;i<n;i++){
+      const a = Math.random()*Math.PI*2;
+      const r = 18 + Math.random()*26;
+      sparks.push({
+        x: center.x + Math.cos(a)*r,
+        y: center.y + Math.sin(a)*r,
+        dx: (Math.random()-0.5)*0.6,
+        dy: (Math.random()-0.8)*0.8,
+        life: 42 + Math.random()*26,
+        age: 0,
+        size: 1 + Math.random()*1.8,
+        hue: 330 + Math.random()*30
+      });
+    }
+  }
+  // expose for fireworks sync
+  window.spawnHeartSparks = (n)=>spawn(n);
+
+  // beat spawn
+  let beat = setInterval(()=>{ if(!reduceMotion) spawn(6); }, 500);
+
+  let last = performance.now();
+  function loop(now){
+    const dt = Math.min((now - last)/16.666, 3);
+    last = now;
+    ctx.clearRect(0,0,W,H);
+    for(let i=sparks.length-1;i>=0;i--){
+      const p = sparks[i];
+      p.age += dt;
+      if(p.age > p.life){ sparks.splice(i,1); continue; }
+      p.x += p.dx*dt; p.y += p.dy*dt + 0.01*dt*dt; p.dy += 0.02*dt;
+      const t = p.age/p.life;
+      const alpha = Math.max(1 - t, 0);
+      const grd = ctx.createRadialGradient(p.x,p.y,0.1, p.x,p.y,p.size*3);
+      grd.addColorStop(0, `hsla(${p.hue}, 90%, 70%, ${0.85*alpha})`);
+      grd.addColorStop(1, `hsla(${p.hue}, 90%, 70%, 0)`);
+      ctx.fillStyle = grd;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y, p.size, 0, Math.PI*2);
+      ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  // Pause all if reduced motion
+  if(reduceMotion){
+    clearInterval(beat);
+    $heart.css('transform','scale(1)');
+  }
+})(jQuery);
+</script>
+</body>
+</html>
